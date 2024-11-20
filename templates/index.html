@@ -30,7 +30,11 @@
           <a href="{{ url_for('static', filename='about.html') }}"
             class="text-m/6 font-semibold text-gray-200">About</a>
         </div>
-        <div class="lg:flex lg:flex-1 lg:justify-end">
+        <div class="lg:flex lg:flex-1 lg:justify-end gap-4 items-center">
+          <button id="theme-toggle" onclick="toggleTheme()"
+            class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors" title="Toggle Dark Mode">
+            <span id="theme-icon">🌙</span>
+          </button>
           <a href="{{ url_for('static', filename='joinus.html') }}" class="text-sm/6 font-semibold text-gray-200">Join
             Us <span aria-hidden="true">&rarr;</span></a>
         </div>
@@ -84,14 +88,44 @@
       <!-- Left Column -->
       <div class="bg-white bg-opacity-40 shadow-md rounded-lg p-8 w-full max-w-lg mr-4 min-h-[55vh]">
         <h2 class="text-xl font-bold mb-6 text-center text-cyan-100">Input Text</h2>
+
+        <!-- Example Comment Buttons -->
+        <div class="mb-4">
+          <p class="text-sm font-medium text-gray-200 mb-2">Try Example Comments:</p>
+          <div class="flex gap-2 flex-wrap">
+            <button type="button" onclick="fillExample('mild')"
+              class="bg-green-500 hover:bg-green-600 text-white text-xs py-1 px-3 rounded">Mild</button>
+            <button type="button" onclick="fillExample('moderate')"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white text-xs py-1 px-3 rounded">Moderate</button>
+            <button type="button" onclick="fillExample('severe')"
+              class="bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-3 rounded">Severe</button>
+          </div>
+        </div>
+
         <form id="predict-form">
           <div class="mb-4">
             <label for="comment" class="block text-sm font-medium text-gray-200">Enter a Comment</label>
             <textarea id="comment" name="comment" rows="10"
               class="mt-1 block w-full px-3 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"></textarea>
+
+            <!-- Language Detection Info -->
+            <div id="language-info" class="mt-2 text-xs text-gray-300 hidden">
+              <span id="language-text"></span>
+            </div>
           </div>
-          <button id="predict-btn" type="submit"
-            class="bg-cyan-500 text-white py-2 px-4 font-bold rounded-lg w-full hover:bg-cyan-700  disabled:bg-gray-400 disabled:cursor-not-allowed">Predict</button>
+
+          <!-- Translate Button -->
+          <button type="button" id="translate-btn" onclick="translateText()"
+            class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 font-bold rounded-lg w-full mb-2 disabled:bg-gray-400 disabled:cursor-not-allowed">
+            🌐 Translate to English
+          </button>
+
+          <div class="flex gap-2">
+            <button id="predict-btn" type="submit"
+              class="bg-cyan-500 text-white py-2 px-4 font-bold rounded-lg flex-1 hover:bg-cyan-700 disabled:bg-gray-400 disabled:cursor-not-allowed">Predict</button>
+            <button id="clear-btn" type="button" onclick="clearForm()"
+              class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 font-bold rounded-lg">Clear</button>
+          </div>
         </form>
       </div>
 
@@ -99,40 +133,67 @@
       <div class="bg-white bg-opacity-40 shadow-md rounded-lg p-8 w-full max-w-lg ml-4">
         <h2 class="text-xl font-bold mb-6 text-center text-cyan-100">Prediction Result</h2>
         <div id="result" class="mt-6 border border-gray-300 rounded-md shadow-sm p-4">
+
+          <!-- Severity Score Badge -->
+          <div class="mb-4 text-center">
+            <p class="text-sm text-gray-300 mb-2">Overall Severity Score</p>
+            <div id="severity-badge" class="inline-block px-4 py-2 rounded-lg font-bold text-lg">
+              <span id="severity-score">--</span>
+            </div>
+          </div>
+
           <p id="bullying-status" class="text-lg mt-2 text-gray-100"></p>
           <div id="probabilities" class="mt-4">
             <div class="mb-2">
-              <p class="text-cyan-300"><strong>Toxic:</strong></p>
+              <div class="flex justify-between items-center mb-1">
+                <p class="text-cyan-300"><strong>Toxic:</strong></p>
+                <span id="toxic-percent" class="text-cyan-300 text-sm font-semibold">0%</span>
+              </div>
               <div class="w-full bg-gray-200 rounded-md">
                 <div id="toxic-bar" class="h-4 rounded-md transition-all duration-300"></div>
               </div>
             </div>
             <div class="mb-2">
-              <p class="text-cyan-300"><strong>Severe Toxic:</strong></p>
+              <div class="flex justify-between items-center mb-1">
+                <p class="text-cyan-300"><strong>Severe Toxic:</strong></p>
+                <span id="severe-toxic-percent" class="text-cyan-300 text-sm font-semibold">0%</span>
+              </div>
               <div class="w-full bg-gray-200 rounded-md">
                 <div id="severe-toxic-bar" class="h-4 rounded-md transition-all duration-300"></div>
               </div>
             </div>
             <div class="mb-2">
-              <p class="text-cyan-300"><strong>Obscene:</strong></p>
+              <div class="flex justify-between items-center mb-1">
+                <p class="text-cyan-300"><strong>Obscene:</strong></p>
+                <span id="obscene-percent" class="text-cyan-300 text-sm font-semibold">0%</span>
+              </div>
               <div class="w-full bg-gray-200 rounded-md">
                 <div id="obscene-bar" class="h-4 rounded-md transition-all duration-300"></div>
               </div>
             </div>
             <div class="mb-2">
-              <p class="text-cyan-300"><strong>Threat:</strong></p>
+              <div class="flex justify-between items-center mb-1">
+                <p class="text-cyan-300"><strong>Threat:</strong></p>
+                <span id="threat-percent" class="text-cyan-300 text-sm font-semibold">0%</span>
+              </div>
               <div class="w-full bg-gray-200 rounded-md">
                 <div id="threat-bar" class="h-4 rounded-md transition-all duration-300"></div>
               </div>
             </div>
             <div class="mb-2">
-              <p class="text-cyan-300"><strong>Insult:</strong></p>
+              <div class="flex justify-between items-center mb-1">
+                <p class="text-cyan-300"><strong>Insult:</strong></p>
+                <span id="insult-percent" class="text-cyan-300 text-sm font-semibold">0%</span>
+              </div>
               <div class="w-full bg-gray-200 rounded-md">
                 <div id="insult-bar" class="h-4 rounded-md transition-all duration-300"></div>
               </div>
             </div>
             <div class="mb-2">
-              <p class="text-cyan-300"><strong>Identity Hate:</strong></p>
+              <div class="flex justify-between items-center mb-1">
+                <p class="text-cyan-300"><strong>Identity Hate:</strong></p>
+                <span id="identity-hate-percent" class="text-cyan-300 text-sm font-semibold">0%</span>
+              </div>
               <div class="w-full bg-gray-200 rounded-md">
                 <div id="identity-hate-bar" class="h-4 rounded-md transition-all duration-300"></div>
               </div>
@@ -143,17 +204,219 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Resources Section -->
+  <div class="bg-gray-900 bg-opacity-60 py-12">
+    <div class="container mx-auto px-6 md:px-12">
+      <h2 class="text-3xl font-bold text-center text-cyan-300 mb-8">Cyberbullying Prevention Resources (India)</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg hover:bg-opacity-20 transition-all">
+          <h3 class="text-xl font-semibold text-cyan-200 mb-3">📞 Childline India</h3>
+          <p class="text-gray-300 text-sm mb-4">Call 1098 (24/7 helpline)</p>
+          <a href="https://www.childlineindia.org/" target="_blank"
+            class="text-cyan-400 hover:text-cyan-300 text-sm">Get Help →</a>
+        </div>
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg hover:bg-opacity-20 transition-all">
+          <h3 class="text-xl font-semibold text-cyan-200 mb-3">🛡️ Cyber Crime Portal</h3>
+          <p class="text-gray-300 text-sm mb-4">Report cyberbullying to police</p>
+          <a href="https://cybercrime.gov.in/" target="_blank" class="text-cyan-400 hover:text-cyan-300 text-sm">Report
+            Online →</a>
+        </div>
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg hover:bg-opacity-20 transition-all">
+          <h3 class="text-xl font-semibold text-cyan-200 mb-3">🆘 NCPCR</h3>
+          <p class="text-gray-300 text-sm mb-4">National Commission for Protection of Child Rights</p>
+          <a href="https://ncpcr.gov.in/" target="_blank" class="text-cyan-400 hover:text-cyan-300 text-sm">Learn More
+            →</a>
+        </div>
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg hover:bg-opacity-20 transition-all">
+          <h3 class="text-xl font-semibold text-cyan-200 mb-3">💬 iCall Mental Health</h3>
+          <p class="text-gray-300 text-sm mb-4">Call 9152987821 (Mon-Sat, 10am-8pm)</p>
+          <a href="https://icallhelpline.org/" target="_blank" class="text-cyan-400 hover:text-cyan-300 text-sm">Get
+            Support →</a>
+        </div>
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg hover:bg-opacity-20 transition-all">
+          <h3 class="text-xl font-semibold text-cyan-200 mb-3">🏫 NCERT Guidance</h3>
+          <p class="text-gray-300 text-sm mb-4">Cybersafety resources for students</p>
+          <a href="https://ncert.nic.in/" target="_blank" class="text-cyan-400 hover:text-cyan-300 text-sm">Resources
+            →</a>
+        </div>
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg hover:bg-opacity-20 transition-all">
+          <h3 class="text-xl font-semibold text-cyan-200 mb-3">👨‍👩‍👧 Parents Guide</h3>
+          <p class="text-gray-300 text-sm mb-4">Digital parenting tips</p>
+          <a href="https://www.unicef.org/india/safer-internet" target="_blank"
+            class="text-cyan-400 hover:text-cyan-300 text-sm">Read Guide →</a>
+        </div>
+      </div>
+      <div class="mt-8 text-center">
+        <p class="text-gray-400 text-sm">
+          <strong>Emergency:</strong> Women Helpline 181 | Child Helpline 1098 | Cyber Crime 155260
+        </p>
+      </div>
+    </div>
+  </div>
   <footer class="bg-black bg-opacity-50 py-6">
     <div class="container mx-auto px-6 md:px-12 text-center">
       <p class="text-gray-400">© 2024 Cybersheild</p>
     </div>
   </footer>
   <script>
+    // Dark Mode Toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      if (newTheme === 'dark') {
+        html.classList.add('dark');
+        document.getElementById('theme-icon').textContent = '☀️';
+      } else {
+        html.classList.remove('dark');
+        document.getElementById('theme-icon').textContent = '🌙';
+      }
+
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        // Ensure the theme-icon exists before trying to set its textContent
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) {
+          themeIcon.textContent = '☀️';
+        }
+      }
+    });
+
+    // Example comments
+    const examples = {
+      mild: "I disagree with your opinion, but I respect it.",
+      moderate: "You're being annoying and I don't like what you said.",
+      severe: "You stupid idiot, shut up! Nobody likes you, loser."
+    };
+
+    // Fill textarea with example
+    function fillExample(type) {
+      document.getElementById('comment').value = examples[type];
+    }
+
+    // Clear form and results
+    function clearForm() {
+      document.getElementById('comment').value = '';
+      document.getElementById('result').classList.add('hidden');
+      document.getElementById('severity-score').textContent = '--';
+      document.getElementById('bullying-status').textContent = '';
+
+      // Hide language info
+      document.getElementById('language-info').classList.add('hidden');
+
+      // Reset all bars
+      ['toxic', 'severe-toxic', 'obscene', 'threat', 'insult', 'identity-hate'].forEach(id => {
+        document.getElementById(`${id}-bar`).style.width = '0%';
+        document.getElementById(`${id}-percent`).textContent = '0%';
+      });
+    }
+
+    // Translate text to English
+    async function translateText() {
+      const textarea = document.getElementById('comment');
+      const text = textarea.value.trim();
+      const translateBtn = document.getElementById('translate-btn');
+      const languageInfo = document.getElementById('language-info');
+      const languageText = document.getElementById('language-text');
+
+      if (!text) {
+        alert('Please enter some text to translate');
+        return;
+      }
+
+      // Set loading state
+      translateBtn.textContent = 'Translating...';
+      translateBtn.disabled = true;
+
+      try {
+        const response = await fetch('/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: text })
+        });
+
+        if (!response.ok) {
+          throw new Error('Translation failed');
+        }
+
+        const data = await response.json();
+
+        // Show language detection info
+        if (data.needs_translation) {
+          languageText.innerHTML = `✅ Detected: <strong>${data.detected_language.toUpperCase()}</strong> → Translated to English`;
+          languageInfo.classList.remove('hidden');
+
+          // Replace textarea content with translated text
+          textarea.value = data.translated;
+
+          // Show success message
+          setTimeout(() => {
+            languageText.innerHTML = `✅ Translated from ${data.detected_language.toUpperCase()} to English`;
+          }, 2000);
+        } else {
+          languageText.innerHTML = `✅ Text is already in English`;
+          languageInfo.classList.remove('hidden');
+
+          setTimeout(() => {
+            languageInfo.classList.add('hidden');
+          }, 3000);
+        }
+
+      } catch (error) {
+        console.error('Translation error:', error);
+        alert('Translation failed. The text will be analyzed as-is.');
+      } finally {
+        // Reset button
+        translateBtn.textContent = '🌐 Translate to English';
+        translateBtn.disabled = false;
+      }
+    }
+
+    // Update progress bar and percentage
     function setBar(elementId, value) {
-      const bar = document.getElementById(elementId);
+      const bar = document.getElementById(elementId + '-bar');
+      const percentLabel = document.getElementById(elementId + '-percent');
       const percentage = (value * 100).toFixed(2);
+
       bar.style.width = `${percentage}%`;
-      bar.style.background = (percentage > 50) ? `linear-gradient(to right, orange, red)` : ((percentage > 30) ? `linear-gradient(to right, yellow, orange)` : `linear-gradient(to right, #90EE90, yellow)`);
+      percentLabel.textContent = `${percentage}%`;
+
+      bar.style.background = (percentage > 50)
+        ? `linear-gradient(to right, orange, red)`
+        : ((percentage > 30)
+          ? `linear-gradient(to right, yellow, orange)`
+          : `linear-gradient(to right, #90EE90, yellow)`);
+    }
+
+    // Calculate and display severity score
+    function displaySeverityScore(score) {
+      const badge = document.getElementById('severity-badge');
+      const scoreText = document.getElementById('severity-score');
+
+      scoreText.textContent = score + '/100';
+
+      // Color coding
+      if (score <= 30) {
+        badge.style.background = 'linear-gradient(to right, #10B981, #34D399)'; // Green
+        badge.style.color = 'white';
+      } else if (score <= 70) {
+        badge.style.background = 'linear-gradient(to right, #F59E0B, #FBBF24)'; // Yellow
+        badge.style.color = 'white';
+      } else {
+        badge.style.background = 'linear-gradient(to right, #EF4444, #DC2626)'; // Red
+        badge.style.color = 'white';
+      }
     }
 
     document.getElementById('predict-form').addEventListener('submit', async function (e) {
@@ -167,51 +430,92 @@
       predictButton.disabled = true;
       predictButton.classList.add('bg-gray-400', 'cursor-not-allowed');
       predictButton.classList.remove('bg-cyan-500', 'hover:bg-cyan-700');
-      const response = await fetch('/predict', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({ comment }),
-      });
 
-      const data = await response.json();
-
-      const conclusionResponse = await fetch('/conclude', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          result: {
-            toxic: data.result.toxic,
-            severe_toxic: data.result.severe_toxic,
-            obscene: data.result.obscene,
-            threat: data.result.threat,
-            insult: data.result.insult,
-            identity_hate: data.result.identity_hate
+      try {
+        console.log('Sending prediction request...');
+        const response = await fetch('/predict', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          is_bullying: data.is_bullying
-        })
-      });
+          body: new URLSearchParams({ comment }),
+        });
 
-      const conclusionData = await conclusionResponse.json();
+        if (!response.ok) {
+          throw new Error(`Prediction request failed with status ${response.status}`);
+        }
 
-      document.getElementById('result').classList.remove('hidden');
+        const data = await response.json();
+        console.log('Prediction data received:', data);
 
-      const bullyingStatusElement = document.getElementById('bullying-status');
-      bullyingStatusElement.textContent = conclusionData.conclusion;
+        console.log('Sending conclusion request...');
+        const conclusionResponse = await fetch('/conclude', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            result: {
+              toxic: data.result.toxic,
+              severe_toxic: data.result.severe_toxic,
+              obscene: data.result.obscene,
+              threat: data.result.threat,
+              insult: data.result.insult,
+              identity_hate: data.result.identity_hate
+            },
+            is_bullying: data.is_bullying
+          })
+        });
 
-      setBar('toxic-bar', data.result.toxic);
-      setBar('severe-toxic-bar', data.result.severe_toxic);
-      setBar('obscene-bar', data.result.obscene);
-      setBar('threat-bar', data.result.threat);
-      setBar('insult-bar', data.result.insult);
-      setBar('identity-hate-bar', data.result.identity_hate);
-      predictButton.textContent = 'Predict';
-      predictButton.disabled = false;
-      predictButton.classList.add('bg-cyan-500', 'hover:bg-cyan-700');
-      predictButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        if (!conclusionResponse.ok) {
+          throw new Error(`Conclusion request failed with status ${conclusionResponse.status}`);
+        }
+
+        const conclusionData = await conclusionResponse.json();
+        console.log('Conclusion data received:', conclusionData);
+
+        document.getElementById('result').classList.remove('hidden');
+
+        const bullyingStatusElement = document.getElementById('bullying-status');
+
+        // Check for transliteration warning
+        if (data.transliterated_abuse_detected) {
+          const warning = data.transliteration_warning;
+          const detectedWords = data.detected_transliterated_words.map(w => w.word).join(', ');
+
+          bullyingStatusElement.innerHTML = `
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+              <p class="font-bold">⚠️ Transliterated Abuse Detected</p>
+              <p class="text-sm">${warning.warning}</p>
+              <p class="text-sm mt-2"><strong>Detected words:</strong> ${detectedWords}</p>
+              <p class="text-sm mt-1"><strong>Severity:</strong> ${warning.severity}</p>
+            </div>
+            <div class="mt-2">${conclusionData.conclusion}</div>
+          `;
+        } else {
+          bullyingStatusElement.textContent = conclusionData.conclusion;
+        }
+
+        setBar('toxic', data.result.toxic);
+        setBar('severe-toxic', data.result.severe_toxic);
+        setBar('obscene', data.result.obscene);
+        setBar('threat', data.result.threat);
+        setBar('insult', data.result.insult);
+        setBar('identity-hate', data.result.identity_hate);
+
+        // Display severity score
+        displaySeverityScore(data.severity_score);
+
+      } catch (error) {
+        console.error('Error during prediction:', error);
+        alert('An error occurred while processing your request. Please try again.');
+      } finally {
+        // Reset button state
+        predictButton.textContent = 'Predict';
+        predictButton.disabled = false;
+        predictButton.classList.add('bg-cyan-500', 'hover:bg-cyan-700');
+        predictButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+      }
     });
 
   </script>

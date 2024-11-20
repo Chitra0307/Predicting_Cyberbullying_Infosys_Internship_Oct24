@@ -1,5 +1,7 @@
 Flask
-joblib
+scikit-learn
 nltk
+deep-translator
+langdetect
 google-generativeai
 python-dotenv
