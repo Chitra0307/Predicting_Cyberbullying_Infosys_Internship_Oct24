@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PureSpace</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .landing-page {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-color: #e6e6e6;
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: absolute;
+            bottom: 0;
+            right: 30%;
+            transform: translateX(-50%);
+            width: auto;
+            height: 84%;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 90%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .website-name {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(to right, black, gray);
+            background-clip: text;
+            color: transparent;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            color: #444;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 20px;
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            transition: all 0.3s ease; /
+        }
+        
+        .navbar a:hover {
+            color: #444; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transform: translateY(-3px); 
+        }
+
+        .navbar a.active {
+            color: #444; 
+            font-weight: 700; 
+            border-bottom: 3px solid #444; 
+        }
+
+        .content {
+            position: absolute;
+            top: 55%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            text-align: right; 
+            width: 35%;
+        }
+
+        .content h1 {
+            font-size: 38px;
+            margin-bottom: 18px;
+            color: transparent; 
+            background-image: linear-gradient(to right, grey, black );
+            background-clip: text; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+
+        .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .cta {
+            position: relative;
+            margin: auto;
+            padding: 12px 18px;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #b1dae7;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-page">
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="website-name">PureSpace</div>
+            <div>
+                <a href="#home" class="active">Home</a>
+                <a href="/faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <h1>AI for Safe Social Interactions</h1>
+            <p>AI for Safe Social Interactions leverages advanced algorithms to predict cyberbullying, helping create a digital world where kindness prevails. Explore and try out our model.</p>
+            <a href="/model">
+                <button class="cta">
+                    <span>Try our Model</span>
+                    <svg width="15px" height="10px" viewBox="0 0 13 10">
+                        <path d="M1,5 L11,5"></path>
+                        <polyline points="8 1 12 5 8 9"></polyline>
+                    </svg>
+                </button>
+            </a>
+            
+        </div>
+
+        <!-- Background image -->
+        <img src="static\girl_image.png" alt="Background Girl" class="background-image">
+    </div>
+</body>
+</html>

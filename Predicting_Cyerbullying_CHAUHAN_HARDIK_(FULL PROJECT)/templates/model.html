@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberbullying Detection</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            margin-bottom: 30px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+        }
+
+        .left-section {
+            flex: 3;
+            padding-right: 20px;
+            border-right: 1px solid #e9ecef;
+        }
+
+        .right-section {
+            flex: 2;
+            padding-left: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: transparent; 
+            background-image: linear-gradient(to right, grey, black );
+            background-clip: text; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .textbox {
+            width: calc(100% - 40px);
+            height: 100px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: none;
+            background-color: #f8f9fa;
+        }
+
+        .textbox:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        }
+
+        .predict-button {
+            padding: 12px 30px;
+            font-size: 16px;
+            color: #fff; /* Change text color to black */
+            background-color: #007bff; /* Change background color to black */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .predict-button:hover {
+            background-color: #0072ec; /* Darker shade of black on hover */
+            transform: translateY(-2px); /* Lift effect on hover */
+        }
+
+
+        .predict-button:active {
+            transform: scale(0.98);
+        }
+
+        .cleaned-text {
+            width: calc(100% - 40px);
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #495057;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+
+        .labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .label {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #e9ecef;
+            color: #6c757d;
+            opacity: 0.4;
+            transition: opacity 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .label.highlighted {
+            background-color: #000;
+            color: #ffffff;
+            opacity: 1;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cyberbullying Detection</h1>
+    <div class="container">
+        <div class="left-section">
+            <textarea id="user-input" class="textbox" placeholder="Enter your text here..."></textarea>
+            <button id="predict-button" class="predict-button">Predict</button>
+            <div id="cleaned-text" class="cleaned-text">Cleaned Text: <span id="cleaned-output"></span></div>
+
+            <div class="labels">
+                <div class="label" id="label-toxic">Toxic</div>
+                <div class="label" id="label-obscene">Obscene</div>
+                <div class="label" id="label-threat">Threat</div>
+                <div class="label" id="label-insult">Insult</div>
+                <div class="label" id="label-identity-hate">Identity Hate</div>
+                <div class="label" id="label-not-cyberbullying">None</div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="chart-container">
+                <canvas id="prediction-chart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const predictButton = document.getElementById('predict-button');
+        const userInput = document.getElementById('user-input');
+        const cleanedOutput = document.getElementById('cleaned-output');
+        const predictionChart = document.getElementById('prediction-chart');
+    
+        // Labels for the chart and tracking elements
+        const labels = {
+            toxic: document.getElementById('label-toxic'),
+            obscene: document.getElementById('label-obscene'),
+            threat: document.getElementById('label-threat'),
+            insult: document.getElementById('label-insult'),
+            identity_hate: document.getElementById('label-identity-hate'),
+            not_cyberbullying: document.getElementById('label-not-cyberbullying')
+        };
+    
+        let chartInstance;
+
+        // Define custom labels for the chart
+        const customLabels = {
+            toxic: 'Toxic',
+            obscene: 'Obscene',
+            threat: 'Threat',
+            insult: 'Insult',
+            identity_hate: 'Identity Hate',
+            not_cyberbullying: 'None'
+        };
+    
+        // Initial data: All labels set to 0
+        const initialData = {
+            toxic: 0,
+            obscene: 0,
+            threat: 0,
+            insult: 0,
+            identity_hate: 0,
+            not_cyberbullying: 0
+        };
+    
+        // Create the chart
+        function createChart(data) {
+            if (chartInstance) {
+                chartInstance.destroy(); // Destroy previous chart instance if it exists
+            }
+    
+            chartInstance = new Chart(predictionChart, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data).map(key => customLabels[key] || key), // Labels for the chart (e.g., toxic, obscene, etc.)
+                    datasets: [{
+                        label: 'Prediction Scores',
+                        data: Object.values(data), // Data for the chart (probabilities or 1/0 for not_cyberbullying)
+                        backgroundColor: [
+                            '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#28a745'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            ticks: {
+                                // Set the angle of the labels to 0 (horizontal)
+                                autoSkip: false, 
+                                maxRotation: 0, 
+                                minRotation: 0  
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 1
+                        }
+                    }
+                }
+            });
+        }
+    
+        // Initialize the chart with all labels at 0
+        createChart(initialData);
+    
+        // Handle the prediction button click event
+        predictButton.addEventListener('click', async () => {
+            const text = userInput.value;
+    
+            if (!text.trim()) {
+                alert('Please enter some text!');
+                return;
+            }
+    
+            // Send the text to the backend for prediction
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+    
+            const result = await response.json();
+            const { cleaned_text, predictions } = result;
+    
+            // Display cleaned text
+            cleanedOutput.textContent = cleaned_text;
+    
+            // Set all labels to 0 initially
+            const updatedData = { ...initialData };
+    
+            // First, reset all labels to remove highlighting
+            Object.values(labels).forEach(labelElement => {
+                labelElement.classList.remove('highlighted');
+            });
+    
+            // If predictions are empty (not_cyberbullying), set only that label to 1
+            if (Object.keys(predictions).length === 0) {
+                updatedData['not_cyberbullying'] = 1;
+                labels['not_cyberbullying'].classList.add('highlighted'); // Highlight 'not_cyberbullying'
+            } else {
+                // Otherwise, use the predictions with probabilities
+                for (const label in predictions) {
+                    updatedData[label] = predictions[label]; // Use the probabilities from the model
+                    labels[label].classList.add('highlighted'); // Highlight labels with a probability > 0.5
+                }
+            }
+    
+            // Update the chart with the new data
+            createChart(updatedData);
+        });
+    </script>
+    
+</body>
+</html>
