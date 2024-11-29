@@ -1,0 +1,5 @@
+Flask
+joblib
+nltk
+google-generativeai
+python-dotenv

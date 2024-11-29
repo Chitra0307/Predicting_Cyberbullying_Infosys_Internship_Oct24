@@ -1,0 +1,45 @@
+/* Set the body style */
+body {
+    margin: 0;
+    /* Remove default margin */
+    padding: 0;
+    /* Remove default padding */
+    background-image: url('./Images/bg.png');
+    /* Replace with your image URL */
+    background-size: cover;
+    /* Make the image cover the entire viewport */
+    background-attachment: fixed;
+    /* Fix the image to the viewport */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent the image from repeating */
+    opacity: 1;
+    /* Adjust opacity (optional, this affects all content unless layered) */
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling caused by large content */
+    color: white;
+}
+
+/* Add an overlay layer for opacity control */
+body::before {
+    content: "";
+    /* Add an empty content layer */
+    position: fixed;
+    /* Fix the overlay to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Cover the entire screen width */
+    height: 100%;
+    /* Cover the entire screen height */
+    background: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent background layer */
+    z-index: -1;
+    /* Send the overlay behind the content */
+}
+
+.faq-icon {
+    font-size: 2.5rem;
+    color: cyan !important;
+}

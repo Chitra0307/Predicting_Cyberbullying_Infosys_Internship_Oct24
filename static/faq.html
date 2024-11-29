@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Cyberbullying Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="absolute sticky inset-x-0 top-0 z-50 bg-black bg-opacity-50">
+        <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <div class="flex lg:flex-1">
+                <a href="/" class="-m-1.5 p-1.5">
+                    <span class="text-xl font-bold tracking-wide uppercase">CyberShield</span>
+                    <!-- <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=cyan&shade=600" alt=""> -->
+                </a>
+            </div>
+            <div class="flex lg:hidden">
+                <button type="button"
+                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-100">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        aria-hidden="true" data-slot="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden lg:flex lg:gap-x-12">
+                <a href="/" class="text-m/6 font-semibold text-gray-100">Home</a>
+                <a href="./awareness.html"
+                    class="text-m/6 font-semibold text-gray-200">Awareness</a>
+                <a href="./casestudy.html"
+                    class="text-m/6 font-semibold text-gray-200">Case
+                    Studies</a>
+                <a href="./faq.html"
+                    class="text-m/6 font-semibold text-gray-200">FAQs</a>
+                <a href="./about.html"
+                    class="text-m/6 font-semibold text-gray-200">About</a>
+            </div>
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                <a href="joinus.html" class="text-sm/6 font-semibold text-gray-200">Join Us <span
+                        aria-hidden="true">&rarr;</span></a>
+            </div>
+        </nav>
+    </header>
+    <div class="min-h-screen py-16 px-6 m-20">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-center text-3xl font-bold mb-8">
+                Frequently Asked Questions
+            </h1>
+            <div class="space-y-6">
+
+                <!-- FAQ Item 1 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(1)">
+                        What is cyberbullying? <span id="icon-1" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-1" class="hidden mt-4 text-gray-100">
+                        Cyberbullying refers to the use of digital platforms, such as social media, messaging apps,
+                        gaming platforms, or emails, to harass, intimidate, or harm others. It involves repeated and
+                        intentional behavior aimed at upsetting or embarrassing someone through online means.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(2)">
+                        How to know if we are going through cyberbullying? <span id="icon-2" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-2" class="hidden mt-4 text-gray-100">
+                        You might be experiencing cyberbullying if you feel distressed or uncomfortable due to messages,
+                        posts, or interactions online. Indicators include:
+                        <ul>
+                            <li>Receiving threatening or harmful messages.</li>
+                            <li>Being excluded or ostracized from online groups or activities.</li>
+                            <li>Seeing embarrassing or offensive content posted about you.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(3)">
+                        What is our model? <span id="icon-3" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-3" class="hidden mt-4 text-gray-100">
+                        Our model is designed to analyze comments and predict whether they are instances of
+                        cyberbullying. It processes each comment and classifies it into different categories, such as
+                        <strong>threat</strong>, <strong>obscene</strong>, <strong>insult</strong>, <strong>hate
+                            speech</strong>, <strong>severe toxic</strong>, and others, based on the severity and nature
+                        of the content. The model utilizes advanced natural language processing (NLP) techniques, such
+                        as tokenization and lemmatization, combined with machine learning algorithms, to identify
+                        harmful patterns in the text. This allows it to effectively flag potentially harmful comments
+                        and categorize them into specific types of cyberbullying for further analysis or intervention.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(4)">
+                        How to report cyberbullying? <span id="icon-4" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-4" class="hidden mt-4 text-gray-100">
+                        To report cyberbullying, follow these steps:
+                        <ol>
+                            <li>Save evidence: Take screenshots or save messages as proof.</li>
+                            <li>Block the perpetrator: Use platform tools to block the individual.</li>
+                            <li>Report to the platform: Most social media and online services have reporting mechanisms.
+                            </li>
+                            <li>Seek help: Inform trusted individuals, schools, or authorities about the situation.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(5)">
+                        How to prevent cyberbullying? <span id="icon-5" class="faq-icon text-cyan-500">+</span>
+                    </button>
+                    <div id="faq-5" class="hidden mt-4 text-gray-100">
+                        To prevent cyberbullying:
+                        <ul>
+                            <li>Keep personal information private.</li>
+                            <li>Think before you post or share anything online.</li>
+                            <li>Use strong and secure passwords for online accounts.</li>
+                            <li>Educate yourself and others about online etiquette and the impact of harmful behavior.
+                            </li>
+                            <li>Report any suspicious or inappropriate behavior online to the respective platforms or
+                                authorities.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(6)">
+                        What are the legal consequences of cyberbullying? <span id="icon-6" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-6" class="hidden mt-4 text-gray-100">
+                        Cyberbullying can lead to legal consequences, including criminal charges depending on the
+                        severity of the actions. Laws may include harassment, defamation, and even stalking. In many
+                        jurisdictions, cyberbullying is considered a form of bullying that can lead to fines or
+                        imprisonment. Victims may also have the right to file civil suits against perpetrators.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 7 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(7)">
+                        Where to report cyberbullying? <span id="icon-7" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-7" class="hidden mt-4 text-gray-100">
+                        If you are experiencing cyberbullying, you can report it to various platforms or organizations.
+                        Some resources include:
+                        <ul>
+                            <li><a href="https://cyberbullying.org" target="_blank"
+                                    class="text-cyan-600 hover:underline">Cyberbullying Research Center</a></li>
+                            <li><a href="https://www.stopbullying.gov" target="_blank"
+                                    class="text-cyan-600 hover:underline">StopBullying.gov</a></li>
+                            <li>Report on social media platforms like Facebook, Instagram, Twitter, etc. Most platforms
+                                offer reporting tools for inappropriate behavior.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 8 -->
+                <div class="bg-black bg-opacity-40 shadow-md rounded-lg p-6">
+                    <button
+                        class="w-full text-left text-lg font-semibold text-gray-200 flex justify-between items-center"
+                        onclick="toggleFaq(8)">
+                        What are the helpline numbers for cyberbullying? <span id="icon-8" class="faq-icon">+</span>
+                    </button>
+                    <div id="faq-8" class="hidden mt-4 text-gray-200">
+                        Here are some helplines you can contact if you or someone you know is experiencing
+                        cyberbullying:
+                        <ul>
+                            <li><strong>National Helpline for Cyberbullying (USA):</strong> <a href="tel:+18002738255"
+                                    class="text-cyan-300 hover:underline">1-800-273-TALK</a></li>
+                            <li><strong>Cyberbullying Hotline (India):</strong> <a href="tel:1098"
+                                    class="text-cyan-300 hover:underline">1098</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer class="bg-black bg-opacity-50 py-6">
+        <div class="container mx-auto px-6 md:px-12 text-center">
+            <p class="text-gray-400">© 2024 Cybersheild</p>
+        </div>
+    </footer>
+    <script>
+        function toggleFaq(id) {
+            const content = document.getElementById(`faq-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '-';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '+';
+            }
+        }
+    </script>
+</body>
+
+</html>
