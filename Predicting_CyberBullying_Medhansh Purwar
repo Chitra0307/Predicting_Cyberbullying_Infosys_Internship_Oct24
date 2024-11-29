@@ -1,0 +1,348 @@
+# prompt: remove null values from the /content/jigsaw-toxic-comment-classification-challenge.zip
+
+import pandas as pd
+import zipfile
+import os
+
+# Specify the path to your zip file
+zip_file_path = "/content/jigsaw-toxic-comment-classification-challenge.zip"
+
+# Extract the zip file to a temporary directory
+extract_dir = "/content/extracted_data"
+os.makedirs(extract_dir, exist_ok=True)
+
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_dir)
+
+# Find the CSV file within the extracted directory
+for filename in os.listdir(extract_dir):
+    if filename.endswith(".csv"):
+        csv_file_path = os.path.join(extract_dir, filename)
+        break
+
+# Read the CSV file into a Pandas DataFrame
+try:
+  df = pd.read_csv(csv_file_path)
+except FileNotFoundError:
+  print(f"Error: CSV file not found in the extracted directory. Please check the zip file contents.")
+  exit()
+
+
+# Remove rows with any null values
+df = df.dropna()
+
+# Specify the output file path (optional - you can overwrite the original file if needed)
+output_file_path = os.path.join(extract_dir, "cleaned_" + filename)
+
+# Save the cleaned DataFrame to a new CSV file
+df.to_csv(output_file_path, index=False)
+
+print(f"Cleaned data saved to: {output_file_path}")
+
+# prompt: /content/jigsaw-toxic-comment-classification-challenge.zip
+
+import pandas as pd
+import zipfile
+import os
+
+
+# Specify the path to your zip file
+zip_file_path = "/content/jigsaw-toxic-comment-classification-challenge.zip"
+
+# Extract the zip file to a temporary directory
+extract_dir = "/content/extracted_data"
+os.makedirs(extract_dir, exist_ok=True)
+
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_dir)
+
+# Find the CSV file within the extracted directory
+for filename in os.listdir(extract_dir):
+    if filename.endswith(".csv"):
+        csv_file_path = os.path.join(extract_dir, filename)
+        break
+
+# Read the CSV file into a Pandas DataFrame
+try:
+  df = pd.read_csv(csv_file_path)
+except FileNotFoundError:
+  print(f"Error: CSV file not found in the extracted directory. Please check the zip file contents.")
+  exit()
+
+
+# Remove rows with any null values
+df = df.dropna()
+
+# Specify the output file path (optional - you can overwrite the original file if needed)
+output_file_path = os.path.join(extract_dir, "cleaned_" + filename)
+
+# Save the cleaned DataFrame to a new CSV file
+df.to_csv(output_file_path, index=False)
+
+print(f"Cleaned data saved to: {output_file_path}")
+
+# Search for a specific string within the 'comment_text' column (assuming it exists)
+search_string = "toxic"  # Replace with your desired search string
+
+#Perform case insensitive search
+results = df[df['comment_text'].str.contains(search_string, case=False, na=False)]
+
+print(f"\nRows containing the string '{search_string}':")
+results
+
+# You can further process or save the results as needed.
+# Example: Save to a new CSV file
+# results.to_csv("search_results.csv", index=False)
+
+# prompt: perform feature extraction on /content/jigsaw-toxic-comment-classification-challenge.zip
+
+import pandas as pd
+import zipfile
+import os
+
+# Specify the path to your zip file
+zip_file_path = "/content/jigsaw-toxic-comment-classification-challenge.zip"
+
+# Extract the zip file to a temporary directory
+extract_dir = "/content/extracted_data"
+os.makedirs(extract_dir, exist_ok=True)
+
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_dir)
+
+# Find the CSV file within the extracted directory
+for filename in os.listdir(extract_dir):
+    if filename.endswith(".csv"):
+        csv_file_path = os.path.join(extract_dir, filename)
+        break
+
+# Read the CSV file into a Pandas DataFrame
+try:
+  df = pd.read_csv(csv_file_path)
+except FileNotFoundError:
+  print(f"Error: CSV file not found in the extracted directory. Please check the zip file contents.")
+  exit()
+
+# Example Feature Extraction: Word Count
+df['word_count'] = df['comment_text'].str.split().str.len()
+
+# Example Feature Extraction: Character Count
+df['char_count'] = df['comment_text'].str.len()
+
+
+# Example Feature Extraction: Number of uppercase words
+df['upper_case_word_count'] = df['comment_text'].str.split().apply(lambda x: sum(1 for word in x if word.isupper()))
+
+
+# You can add more feature extraction methods here as needed
+
+
+# Example: Display the DataFrame with the new features
+print(df[['comment_text', 'word_count', 'char_count', 'upper_case_word_count']].head())
+
+
+# Save the DataFrame with new features to a new CSV file
+df.to_csv(os.path.join(extract_dir, "features_" + filename), index=False)
+
+# prompt: perform data processing on /content/jigsaw-toxic-comment-classification-challenge.zip
+
+import pandas as pd
+import zipfile
+import os
+
+# Specify the path to your zip file
+zip_file_path = "/content/jigsaw-toxic-comment-classification-challenge.zip"
+
+# Extract the zip file to a temporary directory
+extract_dir = "/content/extracted_data"
+os.makedirs(extract_dir, exist_ok=True)
+
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_dir)
+
+# Find the CSV file within the extracted directory
+for filename in os.listdir(extract_dir):
+    if filename.endswith(".csv"):
+        csv_file_path = os.path.join(extract_dir, filename)
+        break
+
+# Read the CSV file into a Pandas DataFrame
+try:
+  df = pd.read_csv(csv_file_path)
+except FileNotFoundError:
+  print(f"Error: CSV file not found in the extracted directory. Please check the zip file contents.")
+  exit()
+
+# Remove rows with any null values
+df = df.dropna()
+
+# Example Feature Extraction: Word Count
+df['word_count'] = df['comment_text'].str.split().str.len()
+
+# Example Feature Extraction: Character Count
+df['char_count'] = df['comment_text'].str.len()
+
+# Example Feature Extraction: Number of uppercase words
+df['upper_case_word_count'] = df['comment_text'].str.split().apply(lambda x: sum(1 for word in x if word.isupper()))
+
+# Search for a specific string within the 'comment_text' column
+search_string = "toxic"  # Replace with your desired search string
+results = df[df['comment_text'].str.contains(search_string, case=False, na=False)]
+
+print(f"\nRows containing the string '{search_string}':")
+print(results)
+
+# Save the DataFrame with new features to a new CSV file
+df.to_csv(os.path.join(extract_dir, "processed_" + filename), index=False)
+print(f"Processed data saved to: {os.path.join(extract_dir, 'processed_' + filename)}")
+
+# prompt: segregate according to percentages and categories in /content/jigsaw-toxic-comment-classification-challenge.zip
+
+import pandas as pd
+import zipfile
+import os
+
+# Specify the path to your zip file
+zip_file_path = "/content/jigsaw-toxic-comment-classification-challenge.zip"
+extract_dir = "/content/extracted_data"
+os.makedirs(extract_dir, exist_ok=True)
+
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_dir)
+
+for filename in os.listdir(extract_dir):
+    if filename.endswith(".csv"):
+        csv_file_path = os.path.join(extract_dir, filename)
+        break
+
+try:
+    df = pd.read_csv(csv_file_path)
+except FileNotFoundError:
+    print(f"Error: CSV file not found in the extracted directory.")
+    exit()
+
+df = df.dropna()
+
+# Define categories and percentages
+categories = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
+percentages = [0.1, 0.05, 0.15, 0.02, 0.2, 0.08] # Example percentages, adjust as needed
+
+# Create output directory
+output_dir = os.path.join(extract_dir, "segregated_data")
+os.makedirs(output_dir, exist_ok = True)
+
+for category, percentage in zip(categories, percentages):
+    # Sample based on percentage
+    num_samples = int(len(df) * percentage)
+    category_df = df[df[category] == 1].sample(n=min(num_samples, len(df[df[category]==1])), random_state = 42) #Random state for reproducibility
+
+    output_path = os.path.join(output_dir, f"{category}_data.csv")
+    category_df.to_csv(output_path, index=False)
+    print(f"Saved {category} data to {output_path}")
+
+print(f"Segregation complete. Files saved in {output_dir}")
+
+
+
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Assuming 'df' is your DataFrame with 'comment_text' and target columns
+# Replace 'your_target_column' with the actual name of your target column
+# Example: if your target is toxicity, then your_target_column = 'toxic'
+
+# Assuming df has been preprocessed and features extracted
+# Example: 'processed_train.csv' contains the processed data
+try:
+    df = pd.read_csv("/content/extracted_data/processed_train.csv")
+except FileNotFoundError:
+    print("Error: processed_train.csv not found. Please run the preprocessing steps first.")
+    exit()
+
+X = df['comment_text']  # Features
+y = df['toxic'] # Target variable - replace 'toxic' with your target column name
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)  # Use transform, not fit_transform
+
+model = LogisticRegression()
+model.fit(X_train_tfidf, y_train)
+
+# Make predictions on the training data
+X_train_prediction = model.predict(X_train_tfidf)
+training_data_accuracy = accuracy_score(y_train, X_train_prediction)
+print("Training Accuracy:", training_data_accuracy)
+
+# Make predictions on the testing data
+X_test_prediction = model.predict(X_test_tfidf)
+test_data_accuracy = accuracy_score(y_test, X_test_prediction)
+print("Test Accuracy:", test_data_accuracy)
+
+
+# X = df['comment_text'] 
+# Y = df['comments for the /content/jigsaw-toxic-comment-classification-challenge.zip 
+
+import pandas as pd
+import zipfile
+import os
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Specify the path to your zip file
+zip_file_path = "/content/jigsaw-toxic-comment-classification-challenge.zip"
+
+# Extract the zip file to a temporary directory
+extract_dir = "/content/extracted_data"
+os.makedirs(extract_dir, exist_ok=True)
+
+with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_dir)
+
+# Find the CSV file within the extracted directory
+for filename in os.listdir(extract_dir):
+    if filename.endswith(".csv"):
+        csv_file_path = os.path.join(extract_dir, filename)
+        break
+
+# Read the CSV file into a Pandas DataFrame
+try:
+  df = pd.read_csv(csv_file_path)
+except FileNotFoundError:
+  print(f"Error: CSV file not found in the extracted directory. Please check the zip file contents.")
+  exit()
+
+# Data Cleaning (remove rows with null values)
+df = df.dropna()
+
+# Define features (X) and target variable (y)
+X = df['comment_text']
+y = df['toxic'] # Example: Predicting 'toxic' comments. Change to other categories as needed.
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Feature Extraction using TF-IDF
+tfidf_vectorizer = TfidfVectorizer(max_features=5000) # Limit features for performance
+X_train_tfidf = tfidf_vectorizer.fit_transform(X_train)
+X_test_tfidf = tfidf_vectorizer.transform(X_test)
+
+# Model Training (Logistic Regression)
+model = LogisticRegression(max_iter=1000) # Increased max_iter to ensure convergence
+model.fit(X_train_tfidf, y_train)
+
+# Model Prediction
+y_pred = model.predict(X_test_tfidf)
+
+# Model Evaluation
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
