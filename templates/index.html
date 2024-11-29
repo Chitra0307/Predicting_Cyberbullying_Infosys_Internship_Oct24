@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberbullying Detection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="min-h-screen text-gray-100">
+    <header class="absolute sticky inset-x-0 top-0 z-50">
+      <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <div class="flex lg:flex-1">
+          <a href="/" class="-m-1.5 p-1.5">
+            <span class="text-xl font-bold tracking-wide uppercase">CyberShield</span>
+            <!-- <img class="h-8 w-auto" src="" alt=""> -->
+          </a>
+        </div>
+        <div class="lg:flex lg:gap-x-12">
+          <a href="/" class="text-m/6 font-semibold text-gray-100">Home</a>
+          <a href="{{ url_for('static', filename='awareness.html') }}"
+            class="text-m/6 font-semibold text-gray-200">Awareness</a>
+          <a href="{{ url_for('static', filename='casestudy.html') }}" class="text-m/6 font-semibold text-gray-200">Case
+            Studies</a>
+          <a href="{{ url_for('static', filename='faq.html') }}" class="text-m/6 font-semibold text-gray-200">FAQs</a>
+          <a href="{{ url_for('static', filename='about.html') }}"
+            class="text-m/6 font-semibold text-gray-200">About</a>
+        </div>
+        <div class="lg:flex lg:flex-1 lg:justify-end">
+          <a href="{{ url_for('static', filename='joinus.html') }}" class="text-sm/6 font-semibold text-gray-200">Join
+            Us <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="relative isolate px-6 pt-14 lg:px-8">
+      <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        aria-hidden="true">
+        <div
+          class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+        </div>
+      </div>
+      <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+          <div class="relative rounded-full px-3 py-1 text-sm/6 text-gray-300 ring-1 ring-cyan-500 hover:ring-cyan-300">
+            How to Stop Cyberbullying: Insights from UNICEF <a
+              href="https://www.unicef.org/end-violence/how-to-stop-cyberbullying" target="_blank"
+              class="font-semibold text-cyan-300"><span class="absolute inset-0" aria-hidden="true"></span>Read more
+              <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="text-center">
+          <h1 class="text-balance text-5xl font-semibold tracking-tight text-gray-200 sm:text-7xl">Protecting Digital
+            Spaces with AI</h1>
+          <p class="mt-8 text-pretty text-lg font-medium text-gray-300 sm:text-xl/8">Our advanced machine learning model
+            detects and predicts cyberbullying, helping create safer online environments for everyone.</p>
+          <div class="mt-10 flex items-center justify-center gap-x-6">
+            <a href="#model"
+              class="rounded-md bg-cyan-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Try
+              Our Model</a>
+            <a href="https://github.com/Chitra0307/Predicting_Cyberbullying_Infosys_Internship_Oct24" target="_blank"
+              class="text-sm/6 font-semibold text-gray-200">Source Code <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+        aria-hidden="true">
+        <div
+          class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+          style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="min-h-[80vh]" id="model">
+    <h1 class="text-2xl font-bold mb-6 text-center text-cyan-300">Cyberbullying Detection</h1>
+    <div class="flex items-center justify-center">
+      <!-- Left Column -->
+      <div class="bg-white bg-opacity-40 shadow-md rounded-lg p-8 w-full max-w-lg mr-4 min-h-[55vh]">
+        <h2 class="text-xl font-bold mb-6 text-center text-cyan-100">Input Text</h2>
+        <form id="predict-form">
+          <div class="mb-4">
+            <label for="comment" class="block text-sm font-medium text-gray-200">Enter a Comment</label>
+            <textarea id="comment" name="comment" rows="10"
+              class="mt-1 block w-full px-3 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"></textarea>
+          </div>
+          <button id="predict-btn" type="submit"
+            class="bg-cyan-500 text-white py-2 px-4 font-bold rounded-lg w-full hover:bg-cyan-700  disabled:bg-gray-400 disabled:cursor-not-allowed">Predict</button>
+        </form>
+      </div>
+
+      <!-- Right Column -->
+      <div class="bg-white bg-opacity-40 shadow-md rounded-lg p-8 w-full max-w-lg ml-4">
+        <h2 class="text-xl font-bold mb-6 text-center text-cyan-100">Prediction Result</h2>
+        <div id="result" class="mt-6 border border-gray-300 rounded-md shadow-sm p-4">
+          <p id="bullying-status" class="text-lg mt-2 text-gray-100"></p>
+          <div id="probabilities" class="mt-4">
+            <div class="mb-2">
+              <p class="text-cyan-300"><strong>Toxic:</strong></p>
+              <div class="w-full bg-gray-200 rounded-md">
+                <div id="toxic-bar" class="h-4 rounded-md transition-all duration-300"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <p class="text-cyan-300"><strong>Severe Toxic:</strong></p>
+              <div class="w-full bg-gray-200 rounded-md">
+                <div id="severe-toxic-bar" class="h-4 rounded-md transition-all duration-300"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <p class="text-cyan-300"><strong>Obscene:</strong></p>
+              <div class="w-full bg-gray-200 rounded-md">
+                <div id="obscene-bar" class="h-4 rounded-md transition-all duration-300"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <p class="text-cyan-300"><strong>Threat:</strong></p>
+              <div class="w-full bg-gray-200 rounded-md">
+                <div id="threat-bar" class="h-4 rounded-md transition-all duration-300"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <p class="text-cyan-300"><strong>Insult:</strong></p>
+              <div class="w-full bg-gray-200 rounded-md">
+                <div id="insult-bar" class="h-4 rounded-md transition-all duration-300"></div>
+              </div>
+            </div>
+            <div class="mb-2">
+              <p class="text-cyan-300"><strong>Identity Hate:</strong></p>
+              <div class="w-full bg-gray-200 rounded-md">
+                <div id="identity-hate-bar" class="h-4 rounded-md transition-all duration-300"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-black bg-opacity-50 py-6">
+    <div class="container mx-auto px-6 md:px-12 text-center">
+      <p class="text-gray-400">© 2024 Cybersheild</p>
+    </div>
+  </footer>
+  <script>
+    function setBar(elementId, value) {
+      const bar = document.getElementById(elementId);
+      const percentage = (value * 100).toFixed(2);
+      bar.style.width = `${percentage}%`;
+      bar.style.background = (percentage > 50) ? `linear-gradient(to right, orange, red)` : ((percentage > 30) ? `linear-gradient(to right, yellow, orange)` : `linear-gradient(to right, #90EE90, yellow)`);
+    }
+
+    document.getElementById('predict-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const comment = document.getElementById('comment').value;
+      const predictButton = document.getElementById('predict-btn');
+
+      // Set loading state
+      predictButton.textContent = 'Loading...';
+      predictButton.disabled = true;
+      predictButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+      predictButton.classList.remove('bg-cyan-500', 'hover:bg-cyan-700');
+      const response = await fetch('/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({ comment }),
+      });
+
+      const data = await response.json();
+
+      const conclusionResponse = await fetch('/conclude', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          result: {
+            toxic: data.result.toxic,
+            severe_toxic: data.result.severe_toxic,
+            obscene: data.result.obscene,
+            threat: data.result.threat,
+            insult: data.result.insult,
+            identity_hate: data.result.identity_hate
+          },
+          is_bullying: data.is_bullying
+        })
+      });
+
+      const conclusionData = await conclusionResponse.json();
+
+      document.getElementById('result').classList.remove('hidden');
+
+      const bullyingStatusElement = document.getElementById('bullying-status');
+      bullyingStatusElement.textContent = conclusionData.conclusion;
+
+      setBar('toxic-bar', data.result.toxic);
+      setBar('severe-toxic-bar', data.result.severe_toxic);
+      setBar('obscene-bar', data.result.obscene);
+      setBar('threat-bar', data.result.threat);
+      setBar('insult-bar', data.result.insult);
+      setBar('identity-hate-bar', data.result.identity_hate);
+      predictButton.textContent = 'Predict';
+      predictButton.disabled = false;
+      predictButton.classList.add('bg-cyan-500', 'hover:bg-cyan-700');
+      predictButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+    });
+
+  </script>
+</body>
+
+</html>
